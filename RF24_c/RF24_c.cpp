@@ -49,7 +49,7 @@ cbool rf24_write(RF24Handle rf_handle, const void* source, uint8_t len) {
   return cbool(r->write(source, len));
 }
 
-void rf24_startWrite(RF24Handle rf_handle, const void* source, uint8_t len, const bool multicast) {
+void rf24_startWrite(RF24Handle rf_handle, const void* source, uint8_t len, const cbool multicast) {
   RF24* r = to_rf(rf_handle);
   r->startWrite(source, len, multicast);
 }

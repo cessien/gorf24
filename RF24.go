@@ -61,9 +61,9 @@ func main() {
 }
 */
 
-func New(spidevice string, spispeed uint32, cepin uint8) R {
+func New(cepin uint16, cspin uint16, spispee uint32) R {
 	var r R
-	r.cptr = C.new_rf24(C.CString(spidevice), C.uint32_t(spispeed), C.uint8_t(cepin))
+	r.cptr = C.new_rf24(C.uint16_t(cepin), C.uint16_t(cspin), C.uint32_t(spispee))
 	r.buffer = make([]byte, 128) // max payload length according to nrf24 spec
 
 	return r
@@ -95,8 +95,8 @@ func (r *R) Write(data []byte, length uint8) bool {
 	return gobool(C.rf24_write(r.cptr, unsafe.Pointer(&data), C.uint8_t(length)))
 }
 
-func (r *R) StartWrite(data []byte, length uint8) {
-	C.rf24_startWrite(r.cptr, unsafe.Pointer(&data), C.uint8_t(length))
+func (r *R) StartWrite(data []byte, length uint8, multicast bool) {
+	C.rf24_startWrite(r.cptr, unsafe.Pointer(&data), C.uint8_t(length), cbool(multicast))
 }
 
 func (r *R) WriteAckPayload(pipe uint8, data []byte, length uint8) {
@@ -119,9 +119,9 @@ func (r *R) IsAckPayloadAvailable() bool {
 }
 
 
-func (r *R) Read(length uint8) ([]byte, bool) {
-	ok := gobool(C.rf24_read(r.cptr, unsafe.Pointer(&r.buffer[0]), C.uint8_t(length)))
-	return r.buffer[:length],ok
+func (r *R) Read(length uint8) []byte {
+	C.rf24_read(r.cptr, unsafe.Pointer(&r.buffer[0]), C.uint8_t(length))
+	return r.buffer[:length]
 }
 
 func (r *R) OpenWritingPipe(address uint64) {
