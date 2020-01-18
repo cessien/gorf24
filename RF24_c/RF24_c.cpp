@@ -4,7 +4,7 @@
     Licensed under The MIT License (see README and LICENSE files) */
 
 #include "RF24_c.h"
-#include "RF24.h"
+#include <RF24/RF24.h>
 #include <string>
 
 #define to_rfh(ptr) (reinterpret_cast<RF24Handle>(ptr))
@@ -14,8 +14,8 @@
 #define crc_to_e(val) (static_cast<rf24_crclength_e>(val))
 #define dat_to_e(val) (static_cast<rf24_datarate_e>(val))
 
-RF24Handle new_rf24(cstring spidevice, uint32_t spispeed, uint8_t ce) {
-  RF24* r = new RF24(string(spidevice), spispeed, ce);
+RF24Handle new_rf24(uint16_t cepin, uint16_t cspin, uint32_t spispee) {
+  RF24* r = new RF24(cepin, cspin, spispee);
   return to_rfh(r);
 }
 
@@ -30,8 +30,8 @@ void rf24_begin(RF24Handle rf_handle) {
 }
 
 void rf24_resetcfg(RF24Handle rf_handle) {
-  RF24* r = to_rf(rf_handle);
-  r->resetcfg();
+  /*RF24* r = to_rf(rf_handle);
+  r->resetcfg();*/
 }
 
 void rf24_startListening(RF24Handle rf_handle) {
@@ -49,9 +49,9 @@ cbool rf24_write(RF24Handle rf_handle, const void* source, uint8_t len) {
   return cbool(r->write(source, len));
 }
 
-void rf24_startWrite(RF24Handle rf_handle, const void* source, uint8_t len) {
+void rf24_startWrite(RF24Handle rf_handle, const void* source, uint8_t len, const bool multicast) {
   RF24* r = to_rf(rf_handle);
-  r->startWrite(source, len);
+  r->startWrite(source, len, multicast);
 }
 
 void rf24_writeAckPayload(RF24Handle rf_handle, uint8_t pipe, const void* source, uint8_t len) {
@@ -74,11 +74,9 @@ cbool rf24_isAckPayloadAvailable(RF24Handle rf_handle) {
   return cbool(r->isAckPayloadAvailable());
 }
 
-cbool rf24_read(RF24Handle rf_handle, void* target, uint8_t len) {
+void rf24_read(RF24Handle rf_handle, void* target, uint8_t len) {
   RF24* r = to_rf(rf_handle);
-  //return cbool(r->read(target, len));
-  bool success = r->read(target, len);
-  if(success) { return TRUE; } else { return FALSE; };
+  r->read(target, len);
 }
 
 void rf24_openWritingPipe(RF24Handle rf_handle, uint64_t address) {

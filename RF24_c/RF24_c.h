@@ -27,19 +27,19 @@ typedef uint8_t rf24_crclength_val;
 #define DLL
 #endif
 
-DLL RF24Handle new_rf24(cstring spidevice, uint32_t spispeed, uint8_t ce);
+DLL RF24Handle new_rf24(uint16_t cepin, uint16_t cspin, uint32_t spispee);
 DLL void rf24_delete(RF24Handle rf_handle);
 DLL void rf24_begin(RF24Handle rf_handle);
 DLL void rf24_resetcfg(RF24Handle rf_handle);
 DLL void rf24_startListening(RF24Handle rf_handle);
 DLL void rf24_stopListening(RF24Handle rf_handle);
 DLL cbool rf24_write(RF24Handle rf_handle, const void* source, uint8_t len);
-DLL void rf24_startWrite(RF24Handle rf_handle, const void* source, uint8_t len);
+DLL void rf24_startWrite(RF24Handle rf_handle, const void* source, uint8_t len, const bool multicast);
 DLL void rf24_writeAckPayload(RF24Handle, uint8_t pipe, const void* source, uint8_t len);
 DLL cbool rf24_available(RF24Handle rf_handle);
 DLL cbool rf24_available_pipe(RF24Handle rf_handle, uint8_t* out_pipe);
 DLL cbool rf24_isAckPayloadAvailable(RF24Handle rf_handle);
-DLL cbool rf24_read(RF24Handle rf_handle, void* target, uint8_t len);
+DLL void rf24_read(RF24Handle rf_handle, void* target, uint8_t len);
 DLL void rf24_openWritingPipe(RF24Handle rf_handle, uint64_t address);
 DLL void rf24_openReadingPipe(RF24Handle rf_handle, uint8_t pipe, uint64_t address);
 DLL void rf24_setRetries(RF24Handle rf_handle, uint8_t delay, uint8_t count);
