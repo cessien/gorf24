@@ -92,15 +92,15 @@ func (r *R) StopListening() {
 
 // TODO: implement Reader/Writer compatible interfaces
 func (r *R) Write(data []byte, length uint8) bool {
-	return gobool(C.rf24_write(r.cptr, unsafe.Pointer(&data), C.uint8_t(length)))
+	return gobool(C.rf24_write(r.cptr, unsafe.Pointer(&data[0]), C.uint8_t(length)))
 }
 
 func (r *R) StartWrite(data []byte, length uint8, multicast bool) {
-	C.rf24_startWrite(r.cptr, unsafe.Pointer(&data), C.uint8_t(length), cbool(multicast))
+	C.rf24_startWrite(r.cptr, unsafe.Pointer(&data[0]), C.uint8_t(length), cbool(multicast))
 }
 
 func (r *R) WriteAckPayload(pipe uint8, data []byte, length uint8) {
-	C.rf24_writeAckPayload(r.cptr, C.uint8_t(pipe), unsafe.Pointer(&data), C.uint8_t(length))
+	C.rf24_writeAckPayload(r.cptr, C.uint8_t(pipe), unsafe.Pointer(&data[0]), C.uint8_t(length))
 }
 
 func (r *R) Available() bool {
