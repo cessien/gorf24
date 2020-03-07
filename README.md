@@ -5,29 +5,28 @@ A wrapper library written in go for working with the nrf24l01 type radio transce
 
 1) install and set up basic developer tools, git as well as golang on your RPi
    e.g. on Arch ARM:
-   $> sudo pacman -S base-devel git go
+   $> `sudo pacman -S base-devel git go`
    
    be sure to export GOPATH and add $GOPATH/bin to your PATH; e.g.
-     $> mkdir ~/mygo
-     $> echo "export GOPATH=~/mygo" >> ~/.bashrc
-     $> echo "export PATH=$PATH:$GOPATH/bin" >> ~/.bashrc
+     $> `mkdir ~/mygo`
+     $> `echo "export GOPATH=~/mygo" >> ~/.bashrc`
+     $> `echo "export PATH=$PATH:$GOPATH/bin" >> ~/.bashrc`
    
    log off and on again for GOPATH changes to take effect
    
 2) fetch gorf24 using 
-   $> go get github.com/galaktor/gorf24 (you will get an "ld" type error; ignore!)
-3) $> cd $GOPATH/src/github.com/galaktor/gorf24
-4) $> chmod +x build.sh
-5) $> sudo ./build.sh
-6) you might have to add /usr/local/lib to your /etc/ld.so.conf file (see below)
-7) include gorf24 in your golang source code as usual, i.e. 'import "github.com/galaktor/gorf24"'
-8) Accessing GPIO on Rpi requies elevated permissions, so it makes sense to build normally ("go build")
+   $> `go get github.com/galaktor/gorf24` (you will get an "ld" type error; ignore!)
+3) $> `cd $GOPATH/src/github.com/galaktor/gorf24`
+4) $> `chmod +x build.sh`
+5) $> `sudo ./build.sh`
+6) include gorf24 in your golang source code as usual, i.e. `import "github.com/cessien/gorf24"`
+7) Accessing GPIO on Rpi requies elevated permissions, so it makes sense to build normally (`go build`)
    then run the executable as sudo, i.e.
-   $> go build mycode.go
-   $> sudo ./mycode
+   $> `go build mycode.go`
+   $> `sudo ./mycode`
    If you do not use sudo, you will get segfaults and panics
 
-(Tested on an overclocked (900 MHz) Model A RPi running Arch Linux for Rpi/ARM.)
+(Tested on an overclocked (900 MHz) Model A RPi running Arch Linux for Rpi/ARM, RPi zero W, and RPi 3 Model B+)
 
 Note that this is project is in progress, and the golang or ansi C wrapper haven't been fully tested yet.
 Basic send/receive testing has occured, but many functions might have bugs.
