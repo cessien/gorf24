@@ -1,9 +1,7 @@
-***************************
-      HOW TO INSTALL
-***************************
-TODO! More detail (on the way)
+# gorf24
+A wrapper library written in go for working with the nrf24l01 type radio transceiver.
 
-The gist of it:
+## Installing:
 
 1) install and set up basic developer tools, git as well as golang on your RPi
    e.g. on Arch ARM:
@@ -36,37 +34,8 @@ Basic send/receive testing has occured, but many functions might have bugs.
 Please log any issue you might find and I will try to address it when I get a chance!
 Or even better, fork and contribute, that would be much appreciated.
 
-***************************
-ADD /USR/LOCAL/LIB LDCONFIG
-***************************
 
-On Arch ARM for RPi, /usr/local/lib had to be added to ld.so.conf in order for golang to find the librf24*.so files at runtime.
-you can check if the librf shared objects are detected by running:
-
-$> ldconfig -v | grep librf
-
-If the result is empty, then you need to add /usr/local/lib to /etc/ld.so.conf so that the golang runtime will detect the librf libraries.
-NOTE: despite the "include ld.so.conf.d/*.conf" line in /etc/ld.so.conf, adding such a file had no effect. Needed to add directly to
-ld.so.conf!
-
-### 1. Open /etc/ld.so.conf with a text editor:
-$> sudo nano /etc/ld.so.conf
-
-### 2. Add the line "/usr/local/lib" and save (in nano, "Ctrl+X", "Y" then "Return")
-
-### 3. Run ldconfig to update
-$> sudo ldconfig
-
-### 4. Verify detection of librf* shared objects using ldconfig
-$> ldconfig -v | grep rf
-   	    librf24.so.1 -> librf24.so.1.0
-	    librf24_c.so -> librf24_c.so
-
-
-
-***************************
-         TODOS
-***************************
+## TODOS
 * Makefiles instead of shell scripts
 * maybe better way of installing via go get?
 * more testing of correct wrapping, data types etc
@@ -74,12 +43,10 @@ $> ldconfig -v | grep rf
 * download with RPi binaries for armv6?
 
 
-
-***************************
-  COPYRIGHT AND LICENSE
-***************************
+##  COPYRIGHT AND LICENSE
 
 Copyright 2013, Raphael Estrada
+Copyright 2020, Charles Essien
 
 gorf24 is licensed under the MIT license.
 You should have received a copy of the MIT License along
